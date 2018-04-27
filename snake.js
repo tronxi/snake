@@ -15,16 +15,16 @@ function inicializar()
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
     resize();
-    
+
     comida = new Rectangle(80, 80, tam, tam);
-    
+
     snake.push(new Rectangle(canvas.width / 2, canvas.height / 2, tam, tam));
     snake.push(new Rectangle((canvas.width / 2) + tam, canvas.height / 2, tam, tam));
     snake.push(new Rectangle((canvas.width / 2) + 2 * tam, canvas.height / 2, tam, tam));
-    
+
     document.addEventListener("keypress", mover, false);
     window.addEventListener("resize", resize, false);
-    
+
     repaint();
     run();
 }
@@ -45,15 +45,15 @@ function paint(ctx)
 {
     var fondo = new Image();
     fondo.src = "imagenes/fondo2.png";
-    
+
     var snakeImagen = new Image();
     snakeImagen.src = "imagenes/snake.png";
-    
+
     var comidaImagen = new Image();
     comidaImagen.src = "imagenes/comida.png";
-    
+
     ctx.drawImage(fondo, 0, 0);
-    
+
     ctx.drawImage(comidaImagen, comida.x, comida.y);
     for(let i = 0; i < snake.length; i++)
     {
@@ -74,7 +74,7 @@ function paint(ctx)
     if(localStorage.puntuacion)
     {
         var maxPuntuacion = localStorage.puntuacion;
-        ctx.strokeText("Puntuacion maxima:  " + maxPuntuacion,0,20);      
+        ctx.strokeText("Puntuacion maxima:  " + maxPuntuacion,0,20);
     }
 
     if(finJuego)
@@ -121,11 +121,11 @@ function act()
     {
         tecla = ant;
     }
-        
+
     nuevaCabeza = new Rectangle(nuevaX, nuevaY, tam, tam);
-    
-    if(nuevaCabeza.x > canvas.width - tam || nuevaCabeza.x < 0 || 
-       nuevaCabeza.y > canvas.height - tam ||nuevaCabeza.y < 0 || 
+
+    if(nuevaCabeza.x > canvas.width - tam || nuevaCabeza.x < 0 ||
+       nuevaCabeza.y > canvas.height - tam ||nuevaCabeza.y < 0 ||
        seCome())
     {
         finJuego = true;
@@ -138,7 +138,7 @@ function act()
             comida.x = random(canvas.width / tam - 1) * tam;
             comida.y = random(canvas.height / tam - 1) * tam;
         }while(nuevaCabeza.choque(comida));
-        puntuacion -= 10000;
+        puntuacion += 100;
     }
     else
     {
@@ -200,7 +200,7 @@ function Rectangle(x, y, width, height)
     this.y = y;
     this.width = width;
     this.height = height;
-    
+
     this.choque = function(rect)
         {
             return (this.x < rect.x + rect.width &&
